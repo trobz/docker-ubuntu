@@ -1,8 +1,8 @@
 ############################################################
-# Basic ubuntu 12.04 image
+# Basic ubuntu 14.04 image
 ############################################################
 
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 
 MAINTAINER Michel Meyer <mmeyer@trobz.com>
 
@@ -11,7 +11,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 # Install all dependencies
 
-ADD config/apt/sources.12.04.list /etc/apt/sources.list
+ADD config/apt/sources.14.04.list /etc/apt/sources.list
 
 RUN apt-get update
 RUN apt-get upgrade -y
