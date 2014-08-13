@@ -1,0 +1,31 @@
+hardstatus on
+hardstatus alwayslastline
+startup_message off
+termcapinfo xterm ti@:te@
+hardstatus string "%{= kG}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
+defmonitor on
+vbell off
+defscrollback 5000
+screen -t bash
+
+##   Keybindings   ##
+# F7='k7', F8='k8', F9='k9', F10='k;', F11='F1', F12='F2'
+# Good things to bind to hotkeys:
+#  prev (go to previous screen)
+#  next (go to next screen)
+#  kill (kill this window)
+#  screen (create a new window)
+#  title (rename the current window)
+#  detach (detach this session from this terminal)
+bindkey -k k1 select 0
+bindkey -k k2 select 1
+bindkey -k k3 select 2
+bindkey -k k4 select 3
+ 
+bindkey -k k5 prev
+bindkey -k k6 next
+ 
+bindkey -k k7 title
+ 
+bindkey -k k8 screen
+bindkey -k k9 kill
