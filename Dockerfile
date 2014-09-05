@@ -17,7 +17,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 RUN apt-get install -y \
-    wget curl git locate \
+    wget curl git locate man \
     build-essential apt-utils \
     nmap iputils-ping netstat-nat vim telnet traceroute \
     make gcc \
