@@ -8,7 +8,7 @@ INIT_LOG="/var/log/docker/init.log"
 
 source /etc/bash/logger.sh
 source /etc/bash/replace.sh
-
+source /etc/bash/function.sh
 
 ping -c 1 8.8.8.8 &> /dev/null
 IS_ONLINE=$?
