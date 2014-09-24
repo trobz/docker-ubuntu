@@ -2,7 +2,7 @@ source /etc/bash/color.sh
 
 function git_color {
   local status=$1
-  if [[ $status == *\?\?* ]]; then
+  if [[ $status =~ (\?\?)|( M )|( D ) ]]; then
     echo -e $Red
   elif [[ $status == *ahead* ]]; then
     echo -e $Yellow
