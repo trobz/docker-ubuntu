@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="trobz/ubuntu"
-DOCKER_TAG=${1:-14.04}
+DOCKER_TAG=${1:-12.04}
 
 echo "build image for $NAME:$DOCKER_TAG"
 
