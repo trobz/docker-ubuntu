@@ -13,10 +13,13 @@ function get_prompt {
 
     local GIT=""
     if [ $HAS_GIT -eq 0 ]; then
-        local GIT_BRANCH="$(git_branch)"
-        local GIT_COLOR="$(git_color)"
-        if [ ! -z $GIT_BRANCH ]; then
-            GIT="${BBlack}(${Off}$GIT_COLOR$GIT_BRANCH${Off}${BBlack})${Off} "
+	local GIT_STATUS=$(git status --porcelain --branch 2>/dev/null)
+	if [ $? -eq 0 ]; then
+            local GIT_BRANCH=$(git_branch)
+            local GIT_COLOR=$(git_color "$GIT_STATUS")
+            if [ ! -z $GIT_BRANCH ]; then
+                GIT="${BBlack}(${Off}$GIT_COLOR$GIT_BRANCH${Off}${BBlack})${Off} "
+	    fi
         fi
     fi
 
@@ -25,7 +28,7 @@ function get_prompt {
     local CPATH="${Yellow}\w${Off}"
     local USER="$(user_color)"
     local TIDLE="$(user_tilde)"
-    
+
     echo "$TIME $USER@$HOST:$CPATH $GIT$CODE
 $TIDLE "
 }

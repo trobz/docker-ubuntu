@@ -1,30 +1,23 @@
 source /etc/bash/color.sh
 
 function git_color {
-  local git_status="$(git status 2> /dev/null)"
-
-  if [[ ! $git_status =~ "working directory clean" ]]; then
+  local status=$1
+  if [[ $status == *\?\?* ]]; then
     echo -e $Red
-  elif [[ $git_status =~ "Your branch is ahead of" ]]; then
+  elif [[ $status == *ahead* ]]; then
     echo -e $Yellow
-  elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -e $Green
   else
-    echo -e $Black
+    echo -e $Green
   fi
 }
 
 function git_branch {
-  local git_status="$(git status 2> /dev/null)"
-  local on_branch="On branch ([^${IFS}]*)"
-  local on_commit="HEAD detached at ([^${IFS}]*)"
+  local on_branch=$(git rev-parse --abbrev-ref HEAD)
 
-  if [[ $git_status =~ $on_branch ]]; then
-    local branch=${BASH_REMATCH[1]}
-    echo "$branch"
-  elif [[ $git_status =~ $on_commit ]]; then
-    local commit=${BASH_REMATCH[1]}
-    echo "$commit"
+  if [[ $on_branch != 'HEAD' ]]; then
+    echo "$on_branch"
+  else
+    echo $(git rev-parse --short HEAD)
   fi
 }
 
