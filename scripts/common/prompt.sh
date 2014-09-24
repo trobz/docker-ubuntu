@@ -13,7 +13,7 @@ function get_prompt {
 
     local GIT=""
     if [ $HAS_GIT -eq 0 ]; then
-	local GIT_STATUS=$(git status --porcelain --branch 2>/dev/null)
+	GIT_STATUS=$(git status --porcelain --branch 2>/dev/null)
 	if [ $? -eq 0 ]; then
             local GIT_BRANCH=$(git_branch)
             local GIT_COLOR=$(git_color "$GIT_STATUS")
