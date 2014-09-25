@@ -2,8 +2,12 @@ source /etc/bash/color.sh
 
 function git_color {
   local status=$1
-  if [[ $status =~ (\?\?)|( M )|( D ) ]]; then
+  if [[ $status =~ (UU ) ]]; then
+    echo -e $On_Red
+  elif [[ $status =~ (M )|(D ) ]]; then
     echo -e $Red
+  elif [[ $status =~ (\?\?) ]]; then
+    echo -e $IGreen
   elif [[ $status == *ahead* ]]; then
     echo -e $Yellow
   else
