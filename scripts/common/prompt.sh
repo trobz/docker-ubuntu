@@ -3,6 +3,10 @@ history -a
 source /etc/bash/color.sh
 source /etc/bash/ps_function.sh
 
+CURRENT_PATH=${CURRENT_PATH:-$(pwd)}
+STATUS_TIMEOUT=$([ $CURRENT_PATH == "$(pwd)" ] && echo ${STATUS_TIMEOUT:-0} || echo 0 )
+CURRENT_PATH=$(pwd)
+
 function get_prompt {
     local CODE=""
     if [ $RET -eq 0 ]; then
@@ -13,13 +17,20 @@ function get_prompt {
 
     local GIT=""
     if [ $HAS_GIT -eq 0 ]; then
-	GIT_STATUS=$(git status --porcelain --branch 2>/dev/null)
-	if [ $? -eq 0 ]; then
+        if [ $STATUS_TIMEOUT -eq 0 ]; then
+          GIT_STATUS=$(timeout 1s git status --porcelain --branch 2>/dev/null)
+        fi
+        STATUS_TIMEOUT=$?
+	if [ $STATUS_TIMEOUT -eq 124 ]; then
+            # timeout ! get only the branch name, without color
+            local GIT_BRANCH=$(git_branch)
+            local GIT_COLOR=$Black
+        elif [ $STATUS_TIMEOUT -eq 0 ]; then
             local GIT_BRANCH=$(git_branch)
             local GIT_COLOR=$(git_color "$GIT_STATUS")
-            if [ ! -z $GIT_BRANCH ]; then
-                GIT="${BBlack}(${Off}$GIT_COLOR$GIT_BRANCH${Off}${BBlack})${Off} "
-	    fi
+        fi
+        if [ ! -z $GIT_BRANCH ]; then
+            GIT="${BBlack}(${Off}$GIT_COLOR$GIT_BRANCH${Off}${BBlack})${Off} "
         fi
     fi
 
