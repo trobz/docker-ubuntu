@@ -5,6 +5,7 @@ source /etc/bash/ps_function.sh
 
 CURRENT_PATH=${CURRENT_PATH:-$(pwd)}
 STATUS_TIMEOUT=$([ $CURRENT_PATH == "$(pwd)" ] && echo ${STATUS_TIMEOUT:-0} || echo 0 )
+
 CURRENT_PATH=$(pwd)
 
 function get_prompt {
@@ -26,10 +27,13 @@ function get_prompt {
             local GIT_BRANCH=$(git_branch)
             local GIT_COLOR=$Black
         elif [ $STATUS_TIMEOUT -eq 0 ]; then
+            
             local GIT_BRANCH=$(git_branch)
             local GIT_COLOR=$(git_color "$GIT_STATUS")
         fi
-        if [ ! -z $GIT_BRANCH ]; then
+#        GIT_BRANCH=${GIT_BRANCH:-''}
+#        echo "branch: $GIT_BRANCH"
+        if [ -n "$GIT_BRANCH" ]; then
             GIT="${BBlack}(${Off}$GIT_COLOR$GIT_BRANCH${Off}${BBlack})${Off} "
         fi
     fi
