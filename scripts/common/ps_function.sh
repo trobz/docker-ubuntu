@@ -2,13 +2,13 @@ source /etc/bash/color.sh
 
 function git_color {
   local status=$1
-  if [[ $status =~ (UU ) ]]; then
+  if [[ "$status" =~ (UU ) ]]; then
     echo -e $On_Red
-  elif [[ $status =~ (M )|(D ) ]]; then
+  elif [[ "$status" =~ (M )|(D ) ]]; then
     echo -e $Red
-  elif [[ $status =~ (\?\?) ]]; then
+  elif [[ "$status" =~ (\?\?) ]]; then
     echo -e $IGreen
-  elif [[ $status == *ahead* ]]; then
+  elif [[ "$status" == *ahead* ]]; then
     echo -e $Yellow
   else
     echo -e $Green
@@ -16,12 +16,13 @@ function git_color {
 }
 
 function git_branch {
-  local on_branch=$(git rev-parse --abbrev-ref HEAD)
-
-  if [[ $on_branch != 'HEAD' ]]; then
+  local on_branch=$(git rev-parse --abbrev-ref HEAD 2>&1) 
+  if [[ "$on_branch" == *unknown* ]]; then
+    echo "no head"
+  elif [[ "$on_branch" != 'HEAD' ]]; then
     echo "$on_branch"
   else
-    echo $(git rev-parse --short HEAD)
+    echo $(git rev-parse --short HEAD 2>/dev/null)
   fi
 }
 
