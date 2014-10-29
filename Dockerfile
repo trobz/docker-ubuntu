@@ -39,9 +39,6 @@ ADD config/user/sudoers /etc/sudoers
 ADD config/user/skel /etc/skel
 RUN chmod 0440 /etc/sudoers
 
-# bugfix https://github.com/tianon/docker-brew-ubuntu-core/issues/17
-RUN chown root:root /usr/bin/sudo
-RUN chmod 4755 /usr/bin/sudo
 
 ADD scripts/common /etc/bash
 ADD scripts/bash /etc/bash.d
