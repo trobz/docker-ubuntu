@@ -14,7 +14,7 @@ ping -c 1 8.8.8.8 &> /dev/null
 IS_ONLINE=$?
 
 if [[ ! -f "$READY" ]]; then
-  info "First run, initalize the container..."
+  info "First run, initialize the container..."
   source $DIR/init.sh
 fi
 
