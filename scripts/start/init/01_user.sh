@@ -29,6 +29,8 @@ if [[ $USER_UID -ne 1000 ]] && [[ $FORCE_CHOWN -ne 1 ]]; then
   chown $USERNAME: $USER_HOME -R &>/dev/null
 fi
 
+chown $USERNAME: $USER_HOME &>/dev/null
+
 # prepare bash.bashrc to have a nice default prompt with bash
 cat /tmp/setup/user/bash.bashrc >> /etc/bash.bashrc
 
