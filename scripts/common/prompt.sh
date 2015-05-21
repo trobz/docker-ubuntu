@@ -38,14 +38,21 @@ function get_prompt {
         fi
     fi
 
+    local VENV=""
+    if [ -n "$VIRTUAL_ENV" ]; then
+      VENV=$(basename "$VIRTUAL_ENV")
+      VENV="${Purple}${VENV}${Off} "
+    fi
+
     local TIME="${BBlack}[\t]${Off}"
     local HOST="${Blue}${HOSTNAME}${Off}"
     local CPATH="${Yellow}\w${Off}"
     local USER="$(user_color)"
     local TIDLE="$(user_tilde)"
 
-    echo "$TIME $USER@$HOST:$CPATH $GIT$CODE
+    echo "${TIME} ${USER}@${HOST}:${CPATH} ${GIT}${VENV}${CODE}
 $TIDLE "
+
 }
 
 function get_term_title {
