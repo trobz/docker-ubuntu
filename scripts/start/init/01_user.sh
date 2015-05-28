@@ -23,10 +23,13 @@ groupadd --gid $USER_GID $USERNAME
 useradd -d $USER_HOME --uid $USER_UID --gid $USER_GID -G sudo -s /bin/bash -m $USERNAME &>/dev/null
 echo -e "$PASSWORD\n$PASSWORD\n" | passwd $USERNAME &>/dev/null
 
-# only change home owner if UID is not the default one on major system
-if [[ $USER_UID -ne 1000 ]] && [[ $FORCE_CHOWN -ne 1 ]]; then
+home_user_ids=(`ls -lan "$USER_HOME" | awk '{print $3}'`)
+home_group_ids=(`ls -lan "$USER_HOME" | awk '{print $4}'`)
+already_chowned=$(val_in_array "$USER_UID" "${home_user_ids[@]}" && val_in_array "$USER_GID" "${home_group_ids[@]}" && echo 1 || echo 0)
+
+if [[ $USER_UID -ne 1000 ]] && [[ $already_chowned -eq 0 ]] || [[ $FORCE_CHOWN -eq 1 ]]; then
   info "Force chown of ${USER_HOME} to $USERNAME"
-  chown $USERNAME: $USER_HOME -R &>/dev/null
+  chown "$USERNAME:" "$USER_HOME" -R &>/dev/null
 fi
 
 chown $USERNAME: $USER_HOME &>/dev/null
@@ -36,3 +39,4 @@ cat /tmp/setup/user/bash.bashrc >> /etc/bash.bashrc
 
 
 success "User $USERNAME configured"
+

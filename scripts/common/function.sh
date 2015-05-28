@@ -49,3 +49,14 @@ prompt() {
   fi
 }
 
+
+
+# check if a value exists in an array
+# usage: val_in_array value array
+# ie:    val_in_array "foo" ("foo" "bar")
+val_in_array () {
+  local val="$1"
+  for e in "${@:2}"; do [[ "$val" == "$e" ]] && return 0; done
+  return 1
+}
+
