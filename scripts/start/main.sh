@@ -18,4 +18,8 @@ if [[ ! -f "$READY" ]]; then
   source $DIR/init.sh
 fi
 
+for file in $DIR/update/*.sh; do
+    source $file
+done
+
 source $DIR/run.sh
