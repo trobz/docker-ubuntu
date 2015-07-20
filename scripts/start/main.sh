@@ -19,7 +19,7 @@ if [[ ! -f "$READY" ]]; then
 fi
 
 for file in $DIR/update/*.sh; do
-    source $file
+  [ -e "$file" ] && source $file
 done
 
 source $DIR/run.sh
