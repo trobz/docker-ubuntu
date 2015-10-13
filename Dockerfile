@@ -63,6 +63,10 @@ RUN chmod 0755 /var/run/sshd
 # configure ssh server service with supervisord
 COPY config/supervisor/conf.d/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
+# install latest git from launchpad ppa
+ADD scripts/setup/git.sh /tmp/setup/git/git.sh
+RUN /bin/bash < /tmp/setup/git/git.sh
+
 RUN mkdir -p /var/log/docker
 RUN chmod a+rw /var/log/docker -R
 
