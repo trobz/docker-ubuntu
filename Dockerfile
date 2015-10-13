@@ -1,10 +1,10 @@
 ############################################################
-# Basic ubuntu 14.04 image
+# Trobz's Ubuntu 14.04 base image
 ############################################################
 
 FROM ubuntu:14.04
 
-MAINTAINER Michel Meyer <mmeyer@trobz.com>
+MAINTAINER Thuan Duong <thuan@trobz.com>
 
 # disable interactive debconf mode
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -12,36 +12,51 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 # Install all dependencies
 
 ADD config/apt/sources.14.04.list /etc/apt/sources.list
+ADD config/apt/apt.conf.d /etc/apt/apt.conf.d
 
 RUN apt-get update
 RUN apt-get upgrade -y
 
-RUN apt-get install -y \
-    wget curl git locate man \
-    build-essential apt-utils \
-    nmap iputils-ping netstat-nat vim telnet traceroute \
-    make gcc \
-    dialog locales sudo \
-    software-properties-common python-software-properties
+# Linux command line tools
+RUN apt-get install -y sudo openssh-server supervisor \
+    dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
+    htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
+    wget curl git-core locate man rsync build-essential make gcc \
+    dialog locales software-properties-common python-software-properties
 
 RUN locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales && \
     /usr/sbin/update-locale LANG=en_US.UTF-8
 
-# Set environment
-
+# Set locale environment
+ADD config/user/locate /etc/default/locale
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+ENV LANGUAGE en_US.UTF-8
 
-ADD config/user/bash.bashrc /tmp/setup/user/bash.bashrc
+# sudo
 ADD config/user/sudoers /etc/sudoers
-ADD config/user/skel /etc/skel
 RUN chmod 0440 /etc/sudoers
 
-
+# bash shell
+ADD config/user/bash.bashrc /tmp/setup/user/bash.bashrc
+ADD config/user/skel /etc/skel
 ADD scripts/common /etc/bash
 ADD scripts/bash /etc/bash.d
+
+# vim
+ADD config/vim/vim.tar.gz /tmp/setup
+
+# supervisor
+COPY config/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+RUN mkdir -p /var/run/supervisor
+RUN mkdir -p /var/log/supervisor
+
+# sshd
+RUN mkdir /var/run/sshd
+RUN chmod 0755 /var/run/sshd
+# configure ssh server service with supervisord
+COPY config/supervisor/conf.d/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 RUN mkdir -p /var/log/docker
 RUN chmod a+rw /var/log/docker -R
@@ -63,6 +78,8 @@ ENV USER_HOME /home/docker
 ONBUILD RUN apt-get update
 ONBUILD RUN apt-get upgrade -y
 ONBUILD RUN updatedb
+
+EXPOSE 22
 
 USER root
 CMD [ "/usr/local/docker/start/main.sh" ]
