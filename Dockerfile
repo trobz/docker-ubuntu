@@ -29,7 +29,7 @@ RUN locale-gen en_US.UTF-8 && \
     /usr/sbin/update-locale LANG=en_US.UTF-8
 
 # Set locale environment
-ADD config/user/locate /etc/default/locale
+ADD config/user/locale /etc/default/locale
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
