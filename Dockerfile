@@ -80,6 +80,7 @@ ONBUILD RUN apt-get upgrade -y
 ONBUILD RUN updatedb
 
 EXPOSE 22
+EXPOSE 8011
 
 USER root
 CMD [ "/usr/local/docker/start/main.sh" ]
