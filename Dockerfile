@@ -34,6 +34,11 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
+# Install Trobz's certificates by default
+ADD config/cert/bundle.crt /usr/local/share/ca-certificates/trobz_bundle.crt
+ADD config/cert/trobz.crt /usr/local/share/ca-certificates/trobz.crt
+RUN update-ca-certificates
+
 # sudo
 ADD config/user/sudoers /etc/sudoers
 RUN chmod 0440 /etc/sudoers
