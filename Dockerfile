@@ -21,7 +21,7 @@ RUN apt-get upgrade -y
 RUN apt-get install -y sudo openssh-server supervisor \
     dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
     htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
-    wget curl git-core locate man rsync build-essential make gcc \
+    wget curl git-core locate man rsync build-essential make gcc keychain \
     dialog locales software-properties-common python-software-properties
 
 RUN locale-gen en_US.UTF-8 && \
