@@ -9,7 +9,7 @@ if [[ $SSH_AVAILABLE -ne 0 ]]; then
 else
     info "Copy your personal SSH keys into $USERNAME user .ssh folder..."
     mkdir $USER_HOME/.ssh
-    rm $USER_HOME/.ssh/{id_rsa,id_rsa.pub,authorized_keys}
+    /bin/rm -f $USER_HOME/.ssh/{id_rsa,id_rsa.pub,authorized_keys}
     /bin/cp -f /usr/local/ssh/{id_rsa,id_rsa.pub} $USER_HOME/.ssh/
     cat $USER_HOME/.ssh/id_rsa.pub > $USER_HOME/.ssh/authorized_keys 2>/dev/null
     sudo chown -R $USERNAME:$USERNAME $USER_HOME/.ssh
