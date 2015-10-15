@@ -18,7 +18,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 # Linux command line tools
-RUN apt-get install -y sudo openssh-server supervisor \
+RUN apt-get install -y sudo openssh-server supervisor apt-transport-https \
     dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
     htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
     wget curl git-core locate man rsync build-essential make gcc keychain \
@@ -88,8 +88,7 @@ ONBUILD RUN apt-get update
 ONBUILD RUN apt-get upgrade -y
 ONBUILD RUN updatedb
 
-EXPOSE 22
-EXPOSE 8011
+EXPOSE 22 8011
 
 USER root
 CMD [ "/usr/local/docker/start/main.sh" ]
