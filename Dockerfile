@@ -10,20 +10,21 @@ MAINTAINER Thuan Duong <thuan@trobz.com>
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install all dependencies
+############################################################
 
 ADD config/apt/sources.14.04.list /etc/apt/sources.list
 ADD config/apt/apt.conf.d /etc/apt/apt.conf.d
 
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-
 # Linux command line tools
-RUN apt-get install -y sudo openssh-server supervisor aptitude apt-transport-https \
+RUN apt-get update && apt-get dist-upgrade -y &&
+    apt-get install -y sudo openssh-server supervisor aptitude apt-transport-https \
     dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
     htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
     wget curl git-core locate man rsync build-essential make gcc keychain \
     dialog locales software-properties-common python-software-properties
 
+# Configure timezone and locale
+RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 RUN locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales && \
     /usr/sbin/update-locale LANG=en_US.UTF-8
@@ -85,7 +86,7 @@ ENV USER_GID 1000
 ENV USER_HOME /home/docker
 
 ONBUILD RUN apt-get update
-ONBUILD RUN apt-get upgrade -y
+ONBUILD RUN apt-get dist-upgrade -y
 ONBUILD RUN updatedb
 
 EXPOSE 22 8011
