@@ -16,7 +16,7 @@ ADD config/apt/sources.14.04.list /etc/apt/sources.list
 ADD config/apt/apt.conf.d /etc/apt/apt.conf.d
 
 # Linux command line tools
-RUN apt-get update && apt-get dist-upgrade -y &&
+RUN apt-get update && apt-get dist-upgrade -y && \
     apt-get install -y sudo openssh-server supervisor aptitude apt-transport-https \
     dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
     htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
