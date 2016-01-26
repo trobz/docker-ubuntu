@@ -5,6 +5,7 @@ export PASSWORD=${PASSWORD:-docker}
 export USER_UID=${USER_UID:-1000}
 export USER_GID=${USER_GID:-1000}
 export FORCE_CHOWN=${FORCE_CHOWN:-0}
+export USER_SHELL=${USER_SHELL:-/bin/bash}
 
 if [[ "$USERNAME" != "docker" ]] && [[ "$USER_HOME" == "/home/docker" ]]; then
     export USER_HOME=/home/$USERNAME
@@ -20,7 +21,7 @@ info "Create user $USERNAME with UID: $USER_UID, GID: $USER_GID, home path: $USE
 
 # setup openerp user
 groupadd --gid $USER_GID $USERNAME
-useradd -d $USER_HOME --uid $USER_UID --gid $USER_GID -G sudo -s /bin/bash -m $USERNAME &>/dev/null
+useradd -d $USER_HOME --uid $USER_UID --gid $USER_GID -G sudo -s $USER_SHELL -m $USERNAME &>/dev/null
 echo -e "$PASSWORD\n$PASSWORD\n" | passwd $USERNAME &>/dev/null
 
 home_user_ids=(`ls -lan "$USER_HOME" | awk '{print $3}'`)
