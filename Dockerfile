@@ -16,10 +16,9 @@ ADD config/apt/sources.14.04.list /etc/apt/sources.list
 ADD config/apt/apt.conf.d /etc/apt/apt.conf.d
 
 # Linux command line tools
-RUN apt-get update && apt-get dist-upgrade -y && \
-    apt-get install -y sudo openssh-server supervisor aptitude apt-transport-https \
+RUN apt-get install -qq -y sudo openssh-server supervisor aptitude apt-transport-https \
     dnsutils net-tools mtr-tiny nmap ngrep telnet traceroute iputils-ping netstat-nat \
-    htop ncdu nano lynx vim-nox zsh bash-completion screen tmux lftp apt-utils \
+    htop ncdu nano lynx vim-nox zsh bash-completion screen tig tmux lftp apt-utils \
     wget curl git-core locate man rsync build-essential make gcc keychain \
     dialog locales software-properties-common python-software-properties
 
