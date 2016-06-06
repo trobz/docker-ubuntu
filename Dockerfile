@@ -1,8 +1,8 @@
 ############################################################
-# Trobz's Ubuntu 14.04 base image
+# Trobz's Ubuntu 16.04 base image
 ############################################################
 
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 MAINTAINER Thuan Duong <thuan@trobz.com>
 
@@ -12,7 +12,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 # Install all dependencies
 ############################################################
 
-COPY config/apt/sources.14.04.list /etc/apt/sources.list
+COPY config/apt/sources.16.04.list /etc/apt/sources.list
 COPY config/apt/apt.conf.d /etc/apt/apt.conf.d
 
 # Linux command line tools
