@@ -26,7 +26,7 @@ RUN apt-get update && apt-get -qq -y dist-upgrade && \
 
 # Configure timezone and locale
 RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone && \
-    dpkg-reconfigure -f noninteractive tzdata
+    dpkg-reconfigure -f noninteractive tzdata && \
     locale-gen en_US.UTF-8 && \
     dpkg-reconfigure -f noninteractive locales && \
     /usr/sbin/update-locale LANG=en_US.UTF-8
