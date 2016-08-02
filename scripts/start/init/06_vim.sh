@@ -1,6 +1,7 @@
 set -e
 
-if [[ $VIM_SETUP -eq 1 ]]; then
+if [[ $VIM_SETUP -eq 1 && -d /tmp/setup/vim ]]; then
+
   info 'Install preconfigured VIM plugins (neobundle, bufexplorer, nerdtree, syntastic, airline, fugitive, python-mode)'
 
   mv /tmp/setup/vim/.vim* $USER_HOME
